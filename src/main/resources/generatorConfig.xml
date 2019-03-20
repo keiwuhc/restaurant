@@ -30,10 +30,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="t_menu_type" domainObjectName="MenuType" >
-            <property name="useActualColumnNames" value="false"/>
-            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
-        </table>
+        <table tableName="t_menu_type" domainObjectName="MenuType"></table>
 
     </context>
 </generatorConfiguration>
