@@ -30,7 +30,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="t_menu_type" domainObjectName="MenuType"></table>
+        <table catalog="restaurant" tableName="t_menu_type" domainObjectName="MenuType"></table>
 
     </context>
 </generatorConfiguration>
