@@ -1,5 +1,7 @@
 package top.eatup.restaurant.entity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  *   菜单类别
  */
@@ -7,11 +9,13 @@ public class MenuType {
     /**
      *   主键
      */
+    @NotNull
     private String id;
 
     /**
      *   菜单名称
      */
+    @NotNull
     private String name;
 
     /**

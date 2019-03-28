@@ -42,6 +42,8 @@ public class MyCommentGenerator implements CommentGenerator {
 
     private SimpleDateFormat dateFormat;
 
+    private TopLevelClass topLevelClass;
+
     public MyCommentGenerator() {
         super();
         properties = new Properties();
@@ -228,6 +230,8 @@ public class MyCommentGenerator implements CommentGenerator {
 //        topLevelClass.addJavaDocLine(sb.toString());
 
         topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
+
+        this.topLevelClass = topLevelClass;
     }
 
     @Override
@@ -284,6 +288,13 @@ public class MyCommentGenerator implements CommentGenerator {
 //        addJavadocTag(field, false);
 
         field.addJavaDocLine(" */"); //$NON-NLS-1$
+        //加入校验注解
+        if (false==introspectedColumn.isNullable()){
+            if (false==introspectedColumn.isIdentity()){
+                topLevelClass.addImportedType("javax.validation.constraints.NotNull");
+                field.addAnnotation("@NotNull");
+            }
+        }
     }
 
     @Override
