@@ -288,7 +288,7 @@ public class MyCommentGenerator implements CommentGenerator {
 //        addJavadocTag(field, false);
 
         field.addJavaDocLine(" */"); //$NON-NLS-1$
-        //加入校验注解
+
         if (false==introspectedColumn.isNullable()){
             if (false==introspectedColumn.isIdentity()){
                 topLevelClass.addImportedType("javax.validation.constraints.NotNull");
