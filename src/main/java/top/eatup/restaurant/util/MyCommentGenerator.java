@@ -3,6 +3,7 @@ package top.eatup.restaurant.util;
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -264,6 +265,8 @@ public class MyCommentGenerator implements CommentGenerator {
             return;
         }
 
+        String remark = "";
+
         field.addJavaDocLine("/**"); //$NON-NLS-1$
 
         String remarks = introspectedColumn.getRemarks();
@@ -272,6 +275,8 @@ public class MyCommentGenerator implements CommentGenerator {
             String[] remarkLines = remarks.split(System.getProperty("line.separator"));  //$NON-NLS-1$
             for (String remarkLine : remarkLines) {
                 field.addJavaDocLine(" *   " + remarkLine);  //$NON-NLS-1$
+                remark = remarkLine;
+                remark = remark.replaceAll("\n","");
             }
         }
 
@@ -290,11 +295,32 @@ public class MyCommentGenerator implements CommentGenerator {
         field.addJavaDocLine(" */"); //$NON-NLS-1$
 
         if (false==introspectedColumn.isNullable()){
-            if (false==introspectedColumn.isIdentity()){
                 topLevelClass.addImportedType("javax.validation.constraints.NotNull");
-                field.addAnnotation("@NotNull");
-            }
+                StringBuffer sb = new StringBuffer();
+                sb.append("@NotNull(");
+                sb.append("message = \"");
+                sb.append(remark);
+                sb.append("不能为空");
+                sb.append("\")");
+                field.addAnnotation(sb.toString());
         }
+        if (true==introspectedColumn.isStringColumn()){
+            topLevelClass.addImportedType("javax.validation.constraints.Size");
+            StringBuffer sb = new StringBuffer();
+            sb.append("@Size(min = 0, max = ");
+            sb.append(introspectedColumn.getLength());
+            sb.append(", message = \"");
+            sb.append(remark);
+            sb.append("长度必须在{min}和{max}之间\")");
+            field.addAnnotation(sb.toString());
+        }
+//        if (introspectedColumn.getJdbcType()== Types.INTEGER){
+//            topLevelClass.addImportedType("javax.validation.constraints.Max");
+//            field.addAnnotation("@Max(value="+introspectedColumn.getLength()+",message=\"最大值不能高于{value}\")");
+//            topLevelClass.addImportedType("javax.validation.constraints.Min");
+//            field.addAnnotation("@Min(value=0,message=\"最小值不能低于{value}\")");
+//        }
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package top.eatup.restaurant.entity;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *   菜单类别
@@ -9,13 +10,15 @@ public class MenuType {
     /**
      *   主键
      */
-    @NotNull
+    @NotNull(message = "主键不能为空")
+    @Size(min = 0, max = 32, message = "主键长度必须在{min}和{max}之间")
     private String id;
 
     /**
      *   菜单名称
      */
-    @NotNull
+    @NotNull(message = "菜单名称不能为空")
+    @Size(min = 0, max = 50, message = "菜单名称长度必须在{min}和{max}之间")
     private String name;
 
     /**
